@@ -48,7 +48,8 @@ Basically all the features are shown in bslogger_examples.cpp
 
   // You can add time snapshots
   log.add_snapshot("before_sleep");
-
+  std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+  
   // Log the time since the last snap added
   log.time_since_last_snap();
 
@@ -57,6 +58,20 @@ Basically all the features are shown in bslogger_examples.cpp
 
   // Log the time since the log was initialized
   log.time_since_start();
+```
+
+Output:
+
+```
+[ INFO    ][ 2017-02-08T20:04:47 ][ int main(int, char**) ]: Some text
+[ WARNING ][ 2017-02-08T20:04:47 ][ int main(int, char**) ]: Some text
+[ ERROR   ][ 2017-02-08T20:04:47 ][ int main(int, char**) ]: Some text
+[ DEBUG   ][ 2017-02-08T20:04:47 ][ int main(int, char**) ]: Some text
+[ DEBUG   ][ 2017-02-08T20:04:47 ][ int main(int, char**) ]: The value of x is 3.1415, the address is 0x7fff17d6f1d8
+[ TIME    ][ 2017-02-08T20:04:47 ][ int main(int, char**) ]: Added snap 'before_sleep'
+[ TIME    ][ 2017-02-08T20:04:49 ][ int main(int, char**) ]: 2s since snap 'before_sleep'
+[ TIME    ][ 2017-02-08T20:04:49 ][ int main(int, char**) ]: 2s since snap 'before_sleep'
+[ TIME    ][ 2017-02-08T20:04:49 ][ int main(int, char**) ]: 2s since instantiation
 ```
 
 ## Advanced usage
