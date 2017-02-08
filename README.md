@@ -1,5 +1,7 @@
 # BSLogger - extremely simple logger for C++
 
+## Overview
+
 The idea behind BSlogger is to provide an elementary logging class for C++ projects that don't need any advanced logging features.
 
 BSlogger is:
@@ -14,6 +16,8 @@ BSlogger supports:
   * time and snapshot logging
   * several log levels, log level control
   * automatic function info
+
+## Example usage
 
 Basically all the features are shown in bslogger_examples.cpp
 
@@ -55,6 +59,8 @@ Basically all the features are shown in bslogger_examples.cpp
   log.time_since_start();
 ```
 
+## Advanced usage
+
 The macros `LOG_INIT_COUT()`, `LOG_INIT_CERR()` and `LOG_INIT_CLOG()` are shorthands for `logger log(std::cout, __PRETTY_FUNCTION__)`, `logger log(std::cerr, __PRETTY_FUNCTION__)` and `logger log(std::clog, __PRETTY_FUNCTION__)`. Any `std::ostream` can be passed to the `logger()` constructor. The two constructors are:
 
   * `logger(std::ostream&, std::string)` - contructs a BSlogger logging to `ostream` and presenting the supplied string as the namespace.
@@ -70,3 +76,6 @@ The log levels are:
   * `LOG_DEBUG`
 
 The logger will print all messages with the current level and lower. The default log-level is `LOG_TIME`, the log-level can be modified using the `logger::set_log_level(unsigned)` function.
+
+The compiler definition `-DBSLOG_NO_COLORS` will turn off colored output.
+If one wants to modify the colors, simply replace the `BSLOG_*` definitions in the header file.
