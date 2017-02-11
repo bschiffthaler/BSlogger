@@ -47,10 +47,10 @@ class logger  {
   template<typename T>
     friend logger& operator<<(logger& l, const T& s);
   logger& operator()(unsigned ll);
-  void add_snapshot(std::string n) {
+  void add_snapshot(std::string n, bool quiet = true) {
     time_t now; time(&now); _snaps.push_back(now);
     _snap_ns.push_back(n);
-    if(_loglevel >= LOG_TIME)
+    if(_loglevel >= LOG_TIME && ! quiet)
       _fac << BSLOG_TIME << prep_time(*this) <<
 	prep_name(*this) << ": Added snap '" << n << "'\n";
   }
