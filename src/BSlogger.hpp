@@ -11,7 +11,9 @@
 
 #define LOG_SILENT 0
 #define LOG_ERR 1
+#define LOG_ERROR 1
 #define LOG_WARN 2
+#define LOG_WARNING 2
 #define LOG_INFO 3
 #define LOG_TIME 4
 #define LOG_DEBUG 5
@@ -42,27 +44,30 @@
 
 class logger  {
  public:
-  logger(std::ostream&, unsigned, std::string);
-  logger(std::ostream&, std::string n);
+  inline logger(std::ostream&, unsigned, std::string);
+  inline logger(std::ostream&, std::string n);
   template<typename T>
     friend logger& operator<<(logger& l, const T& s);
-  logger& operator()(unsigned ll);
-  void add_snapshot(std::string n, bool quiet = true) {
+  inline logger& operator()(unsigned ll);
+  inline void add_snapshot(std::string n, bool quiet = true) {
     time_t now; time(&now); _snaps.push_back(now);
     _snap_ns.push_back(n);
-    if(_loglevel >= LOG_TIME && ! quiet)
+    if(_loglevel() >= LOG_TIME && ! quiet)
       _fac << BSLOG_TIME << prep_time(*this) <<
 	prep_name(*this) << ": Added snap '" << n << "'\n";
   }
-  void set_log_level(unsigned ll) { _loglevel = ll;}
-  
-  void time_since_start();
-  void time_since_last_snap();
-  void time_since_snap(std::string);
+  inline void time_since_start();
+  inline void time_since_last_snap();
+  inline void time_since_snap(std::string);
   friend std::string prep_level(logger& l);
   friend std::string prep_time(logger& l);
   friend std::string prep_name(logger& l);
-  static unsigned _loglevel;
+  static unsigned & _loglevel () {
+    static unsigned _ll_internal = LOG_DEFAULT; return _ll_internal;
+  };
+  inline void set_log_level(unsigned ll) {
+    _loglevel() = ll;
+  }
  private:
   time_t _now;
   time_t _start;
@@ -73,14 +78,16 @@ class logger  {
   std::string _name;
 };
 
-std::string prep_level(logger& l);
-std::string prep_time(logger& l);
-std::string prep_name(logger& l);
+inline std::string prep_level(logger& l);
+inline std::string prep_time(logger& l);
+inline std::string prep_name(logger& l);
+
+//unsigned logger::_loglevel = LOG_DEFAULT;
 
 template<typename T>
 logger& operator<<(logger& l, const T& s)
 {
-  if(l._message_level <= l._loglevel )
+  if(l._message_level <= l._loglevel() )
     {
       l._fac << s;
       return l;
@@ -90,8 +97,6 @@ logger& operator<<(logger& l, const T& s)
       return l;
     }
 }
-
-unsigned logger::_loglevel = LOG_DEFAULT;
 
 logger::logger(std::ostream& f, std::string n) :
 	      _message_level(LOG_SILENT),
@@ -109,12 +114,12 @@ logger::logger(std::ostream& f, unsigned ll, std::string n) :
 {
   time(&_now);
   time(&_start);
-  _loglevel = ll;
+  _loglevel() = ll;
 }
 
 logger& logger::operator()(unsigned ll){
   _message_level = ll;
-  if(_message_level <= _loglevel )
+  if(_message_level <= _loglevel() )
     {
       _fac << prep_level(*this) << prep_time(*this) <<
 	prep_name(*this) << ": ";
@@ -174,7 +179,7 @@ std::string prep_name(logger& l)
 
 void logger::time_since_start()
 {
-  if(_loglevel >= LOG_TIME)
+  if(_loglevel() >= LOG_TIME)
     {
       time(&_now);
       _message_level = LOG_TIME;
@@ -186,7 +191,7 @@ void logger::time_since_start()
 
 void logger::time_since_last_snap()
 {
-  if(_loglevel >= LOG_TIME)
+  if(_loglevel() >= LOG_TIME)
     {
       time(&_now);
       _message_level = LOG_TIME;
@@ -199,7 +204,7 @@ void logger::time_since_last_snap()
 
 void logger::time_since_snap(std::string s)
 {
-  if(_loglevel >= LOG_TIME)
+  if(_loglevel() >= LOG_TIME)
     {
       time(&_now);
       auto it = find(_snap_ns.begin(), _snap_ns.end(), s);
