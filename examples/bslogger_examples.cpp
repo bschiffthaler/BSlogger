@@ -31,6 +31,13 @@ int main(int argc, char ** argv)
                  << ", the address is " << &x
                  << '\n';
 
+  progbar_fancy<uint64_t> p(std::cout, 999999999);
+  for (uint64_t i = 0; i < 999999999; i+=2)
+  {
+    p += 2;
+  }
+  p.finalize();
+
   // You can add time snapshots
   log.add_snapshot("before_sleep");
   std::this_thread::sleep_for(std::chrono::milliseconds(2000));
@@ -43,6 +50,6 @@ int main(int argc, char ** argv)
 
   // Log the time since the log was initialized
   log.time_since_start();
-  
+
   return 0;
 }
