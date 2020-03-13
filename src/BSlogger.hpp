@@ -93,6 +93,7 @@ public:
   inline void time_since_start();
   inline void time_since_last_snap();
   inline void time_since_snap(std::string);
+  inline void flush() { _fac.flush(); }
   friend std::string prep_level(logger& l);
   friend std::string prep_time(logger& l);
   friend std::string prep_name(logger& l);
