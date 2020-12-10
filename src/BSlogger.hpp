@@ -227,7 +227,7 @@ void logger::time_since_start()
 
 void logger::time_since_last_snap()
 {
-  if (_loglevel() >= LOG_TIME)
+  if (_loglevel() >= LOG_TIME && _snap_ns.size() > 0)
   {
     time(&_now);
     _message_level = LOG_TIME;
@@ -244,6 +244,12 @@ void logger::time_since_snap(std::string s)
   {
     time(&_now);
     auto it = find(_snap_ns.begin(), _snap_ns.end(), s);
+    if (it == _snap_ns.end()){
+        _message_level = LOG_WARN;
+        _fac << prep_level(*this) << prep_time(*this) <<
+             prep_name(*this) << ": " << "Could not find snapshot " << s << '\n';
+        return;
+    }
     unsigned long dist = std::distance(_snap_ns.begin(), it);
 
     _message_level = LOG_TIME;
