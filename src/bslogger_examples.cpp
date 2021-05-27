@@ -10,6 +10,10 @@ int main(int argc, char ** argv)
   // Initiate logger (default name is 'log')
   LOG_INIT_CERR();
 
+  for (int i = 0; i < argc; i++) {
+    log(LOG_INFO) << "Arg: " << i << " => " << argv[i] << '\n';
+  }
+
   // Log some stuff. The initial loglevel is
   // INFO and lower (INFO, WARNING, ERROR)
   // so the debug info is not displayed
@@ -47,6 +51,9 @@ int main(int argc, char ** argv)
     p2 += 2;
     p2++;
     ++p2;
+    if (i % 10000000 == 0) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    }
   }
   p2.finalize();
 
