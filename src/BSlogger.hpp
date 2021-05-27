@@ -253,14 +253,17 @@ class progbar_simple {
     _fac << "100%" << std::endl;
     _fac << "[";
     _state = _incr;
+    _fac.flush();
   };
   void check() {
     if (_sum >= _state) {
       _state += _incr;
       _width--;
       _fac << "=";
+      _fac.flush();
       if (_width == 0 && !_final) {
         _fac << "]\n";
+        _fac.flush();
         _final = true;
       }
     }
@@ -269,6 +272,7 @@ class progbar_simple {
     if (!_final) {
       _final = true;
       _fac << "]\n";
+      _fac.flush();
     }
   }
   void operator()(const T& x) {
@@ -322,6 +326,7 @@ class progbar_fancy {
     _state = _incr;
     _poll_interval = std::chrono::milliseconds(poll_interval);
     _fac << std::setprecision(2) << std::fixed;
+    _fac.flush();
   };
   void check() {
     std::chrono::system_clock::time_point now =
@@ -373,6 +378,7 @@ class progbar_fancy {
     if (!_final) {
       _fac << std::endl;
       _final = true;
+      _fac.flush();
     }
   }
   void operator()(const T& x) {
