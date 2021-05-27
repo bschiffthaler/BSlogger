@@ -32,11 +32,22 @@ int main(int argc, char ** argv)
                  << '\n';
 
   progbar_fancy<uint64_t> p(std::cout, 99999999);
-  for (uint64_t i = 0; i < 99999999; i+=2)
+  for (uint64_t i = 0; i < 99999999; i+=4)
   {
     p += 2;
+    p++;
+    ++p;
   }
   p.finalize();
+
+  progbar_simple<uint64_t> p2(std::cout, 99999999);
+  for (uint64_t i = 0; i < 99999999; i+=4)
+  {
+    p2 += 2;
+    p2++;
+    ++p2;
+  }
+  p2.finalize();
 
   // You can add time snapshots
   log.add_snapshot("before_sleep");
