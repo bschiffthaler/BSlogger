@@ -307,7 +307,7 @@ template <typename T>
 class progbar_fancy {
  public:
   progbar_fancy(std::ostream& f, T max, uint64_t poll_interval = 1000,
-                uint64_t width = 30, std::string unit = "units")
+                uint64_t width = 30, std::string unit = "")
       : _max(static_cast<double>(max)),
         _sum(0),
         _state(0),
