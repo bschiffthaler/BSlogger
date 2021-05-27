@@ -3,6 +3,7 @@
 #include <chrono> //milliseconds
 #include <thread> //sleep_for
 
+//NOLINTNEXTLINE
 int main(int argc, char ** argv)
 {
 
