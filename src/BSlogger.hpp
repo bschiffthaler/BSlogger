@@ -1,5 +1,4 @@
-#ifndef SRC_LOGGER_H
-#define SRC_LOGGER_H
+#pragma once
 
 
 #include <iostream>
@@ -434,5 +433,3 @@ private:
   std::string _unit;
   bool _final;
 };
-
-#endif
