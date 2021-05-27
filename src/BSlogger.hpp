@@ -65,9 +65,17 @@ std::string format_duration(T xms) {
   }
 
   std::stringstream ss;
-  ss << std::setfill('0') << std::setw(2) << days << '-' << std::setfill('0')
-     << std::setw(2) << hours << ':' << std::setfill('0') << std::setw(2)
-     << minutes << ':' << std::setfill('0') << std::setw(2) << seconds;
+  if (days > 0) {
+    ss << std::setfill('0') << std::setw(2) << days << '-';
+  }
+  if (hours > 0) {
+    ss << std::setfill('0') << std::setw(2) << hours << ':';
+  }
+  if (minutes > 0) {
+    ss << std::setfill('0') << std::setw(2) << minutes << ':';
+  }
+  // Always display seconds no matter what
+  ss << std::setfill('0') << std::setw(2) << seconds;
   return ss.str();
 }
 
