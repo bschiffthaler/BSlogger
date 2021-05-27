@@ -1,4 +1,4 @@
-#include "../src/BSlogger.hpp"
+#include "BSlogger.hpp"
 
 #include <chrono> //milliseconds
 #include <thread> //sleep_for
@@ -31,8 +31,8 @@ int main(int argc, char ** argv)
                  << ", the address is " << &x
                  << '\n';
 
-  progbar_fancy<uint64_t> p(std::cout, 999999999);
-  for (uint64_t i = 0; i < 999999999; i+=2)
+  progbar_fancy<uint64_t> p(std::cout, 99999999);
+  for (uint64_t i = 0; i < 99999999; i+=2)
   {
     p += 2;
   }
